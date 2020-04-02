@@ -300,8 +300,10 @@ function(set_up_app_build)
 	endif()
 	embedded_set_target_link_includes(TARGET ${EXE_NAME} INCLUDES "${PLATFORM_LINK_INCLUDES}")
 
-	#Generate binary file from axf
+	#Generate bin/hex/elf files from axf executable
 	compiler_generate_binary_output(${EXE_NAME})
+	compiler_generate_hex_output(${EXE_NAME})
+	compiler_generate_elf_output(${EXE_NAME})
 
 	#Generate MCUBoot compatible payload
 	if (BL2)

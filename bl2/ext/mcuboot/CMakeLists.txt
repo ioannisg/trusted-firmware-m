@@ -173,8 +173,10 @@ if (CRYPTO_HW_ACCELERATOR OR CRYPTO_HW_ACCELERATOR_OTP_STATE STREQUAL "PROVISION
 	include(${CRYPTO_HW_ACCELERATOR_CMAKE_LINK})
 endif()
 
-#Generate binary file from axf
+#Generate files from axf
 compiler_generate_binary_output(${PROJECT_NAME})
+compiler_generate_hex_output(${PROJECT_NAME})
+compiler_generate_elf_output(${PROJECT_NAME})
 
 message("- MCUBOOT_REPO: '${MCUBOOT_REPO}'.")
 message("- MCUBOOT_IMAGE_NUMBER: '${MCUBOOT_IMAGE_NUMBER}'.")
