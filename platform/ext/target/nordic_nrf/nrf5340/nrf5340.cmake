@@ -12,6 +12,8 @@ set (SECURE_UART1 ON)
 # nRF5340 has a Cortex M33 CPU.
 include("Common/CpuM33")
 
+set(PLATFORM_DIR ${CMAKE_CURRENT_LIST_DIR})
+
 set(NRF5340_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 embedded_include_directories(PATH "${NRF5340_DIR}/partition" ABSOLUTE)
