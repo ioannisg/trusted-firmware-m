@@ -14,6 +14,20 @@
 #include "tfm_api.h"
 #include "tfm_svcalls.h"
 
+void preempt_secure_thread_mode(void) {
+    if (__get_CONTROL() & CONTROL_FPCA_Msk) {
+        /* FP context is active*/
+        if (__get_IPSR() == 0) {
+            /* Secure thread mode */
+
+            /* Send a NS interrupt to pending */
+            NVIC_SetPendingIRQ(TIMER1_IRQn);
+            __DSB();
+            __ISB();
+        }
+    }
+}
+
 /* Veneer implementation */
 
 /*
@@ -44,6 +58,9 @@ __tfm_psa_secure_gateway_attributes__
 psa_handle_t tfm_psa_connect_veneer(uint32_t sid, uint32_t version)
 {
     __ASM volatile("SVC %0           \n"
+                   "PUSH {r0, r1, r2, r3, r12, lr}\n"
+                   "BL preempt_secure_thread_mode\n"
+                   "POP {r0, r1, r2, r3, r12, lr}\n"
                    "BXNS LR          \n"
                     : : "I" (TFM_SVC_PSA_CONNECT));
 }
